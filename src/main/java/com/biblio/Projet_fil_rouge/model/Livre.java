@@ -39,11 +39,8 @@ public class Livre {
     @Column(nullable = false)
     private Long auteurId;
 
-    // Constructeur sans arguments (obligatoire pour JPA)
-    public Livre() {
-    }
+    public Livre() {}
 
-    // Constructeur avec paramètres
     public Livre(String titre, String isbn, Double prix, Integer dateDePublication, Integer stock, Long auteurId) {
         this.titre = titre;
         this.isbn = isbn;
