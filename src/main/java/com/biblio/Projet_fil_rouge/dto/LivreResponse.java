@@ -11,7 +11,7 @@ public class LivreResponse {
     private Long auteurId;
     
 
-    public LivreResponse(Long id, String titre, String isbn, Double prix, Integer dateDePublication, Integer stock, Long auteurId) {
+    public LivreResponse(String titre, String isbn, Double prix, Integer dateDePublication, Integer stock, Long auteurId) {
         this.id = id;
         this.titre = titre;
         this.isbn = isbn;
