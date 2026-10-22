@@ -20,5 +20,9 @@ public interface LivreRepository extends JpaRepository<Livre, Long> {
                         @Param("prixMax") Double prixMax,
                         Pageable pageable);
 
-    Page<Livre> stockDisponible(Integer stock, Pageable pageable);
+    @Query("SELECT l FROM Livre l WHERE l.stock > 0")
+    Page<Livre> stockDisponibles(Pageable pageable);
+
+    @Query("SELECT COUNT(l) > 0 FROM Livre l WHERE l.isbn = :isbn")
+    boolean existeParIsbn(@Param("isbn") String isbn);
 }
