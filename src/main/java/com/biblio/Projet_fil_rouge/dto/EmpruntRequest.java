@@ -1,6 +1,8 @@
 package com.biblio.Projet_fil_rouge.dto;
+import java.time.LocalDate;
+
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull
+import jakarta.validation.constraints.NotNull;
 
 public class EmpruntRequest {
 
@@ -22,7 +24,7 @@ public class EmpruntRequest {
     private LocalDate dateRetourEffective;
     private boolean rendu = false;
 
-    public String getLivreId() {return livreId;}
+    public Long getLivreId() {return livreId;}
     public void SetLivreID(Long livreId) {this.livreId = livreId;}
 
     public String getEmprunteur() {return emprunteur;}

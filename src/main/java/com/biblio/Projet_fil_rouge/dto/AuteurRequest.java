@@ -1,7 +1,5 @@
 package com.biblio.Projet_fil_rouge.dto;
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull
-import jakarta.validation.constraints.Positive;
 
 public class AuteurRequest {
     @NotBlank(message = "le nom est obligatoire")

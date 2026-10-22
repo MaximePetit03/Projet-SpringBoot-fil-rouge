@@ -1,5 +1,7 @@
 package com.biblio.Projet_fil_rouge.dto;
 
+import java.time.LocalDate;
+
 public class EmpruntResponse {
     private Long id;
     private String emprunteur;
@@ -9,7 +11,7 @@ public class EmpruntResponse {
     private LocalDate dateRetourEffective;
     private boolean rendu = false;
 
-    public EmpruntResponse() {
+    public EmpruntResponse(Long id, String emprunteur, String emailEmprunteur, LocalDate dateEmprunt, LocalDate dateRetourPrevue, LocalDate dateRetourEffective, boolean rendu) {
         this.id = id;
         this.emprunteur = emprunteur;
         this.emailEmprunteur = emailEmprunteur;
