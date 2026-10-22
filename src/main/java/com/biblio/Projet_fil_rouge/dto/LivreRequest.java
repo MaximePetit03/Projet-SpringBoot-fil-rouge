@@ -38,5 +38,5 @@ public class LivreRequest {
 
     public Long getAuteurId() {return auteurId;}
     public void setAuteurId(Long auteurId) {this.auteurId = auteurId;}
-    
+
 }
