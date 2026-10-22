@@ -23,7 +23,7 @@ public class EmpruntRequest {
     private boolean rendu = false;
 
     public String getLivreId() {return livreId;}
-    public void SetLivreID() {this.livreId = livreId;}
+    public void SetLivreID(Long livreId) {this.livreId = livreId;}
 
     public String getEmprunteur() {return emprunteur;}
     public void setEmprunteur(String emprunteur) {this.emprunteur = emprunteur;}
