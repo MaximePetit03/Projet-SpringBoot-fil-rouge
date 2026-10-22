@@ -1,9 +1,6 @@
 package com.biblio.Projet_fil_rouge.controller;
 
 import java.util.List;
-import java.util.Optional;
-
-import org.apache.catalina.connector.Response;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;

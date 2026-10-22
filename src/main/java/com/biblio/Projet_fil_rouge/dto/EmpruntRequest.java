@@ -1,8 +1,10 @@
 package com.biblio.Projet_fil_rouge.dto;
 import java.time.LocalDate;
 
+import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 
 public class EmpruntRequest {
 
@@ -10,9 +12,11 @@ public class EmpruntRequest {
     private Long livreId;
 
     @NotBlank (message = "Le nom de l'emprunteur est obligatoire")
+    @Size (max = 100, message = "Le nom de l'emprunteur ne doit pas dépasser 100 caractères")
     private String emprunteur;
 
     @NotBlank (message = "L'e-mail de l'emprunteur est obligatoire")
+    @Email (message = "L'email doit être valide")
     private String emailEmprunteur;
 
     private LocalDate dateEmprunt;
