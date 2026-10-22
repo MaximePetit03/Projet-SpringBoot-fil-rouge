@@ -58,4 +58,19 @@ public class LivreService {
     public Page<Livre> listerStockDisponible(Pageable pageable) {
         return livreRepository.stockDisponible(0, pageable);
     }
+
+    public Optional<Livre> ajouterStock(Long id, Integer quantite) {
+        return livreRepository.findById(id)
+                .map(livreExistant -> {
+                    int stockActuel = livreExistant.getStock() != null ? livreExistant.getStock() : 0;
+                    int nouveauStock = stockActuel + quantite;
+
+                    if (nouveauStock < 0) {
+                        nouveauStock = 0;
+                    }
+
+                    livreExistant.setStock(nouveauStock);
+                    return livreRepository.save(livreExistant);
+                });
+    }
 }
