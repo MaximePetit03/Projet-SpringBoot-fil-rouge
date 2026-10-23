@@ -97,11 +97,20 @@ public class EmpruntController {
         return ResponseEntity.ok(resultats);
     }
 
-    // GET /api/v1/emprunts/en-retard — Emprunts non rendus et dépassés
+        // GET /api/v1/emprunts/en-retard — Emprunts non rendus dont la date prévue est dépassée
     @GetMapping("/en-retard")
     public ResponseEntity<List<EmpruntResponse>> recupererEnRetard() {
         List<EmpruntResponse> resultats = EmpruntMapper.versResponses(
                 empruntService.recupererEnRetard());
         return ResponseEntity.ok(resultats);
+    }
+
+    // GET /api/v1/emprunts/en-cours — Emprunts non rendus (paginés)
+    @GetMapping("/en-cours")
+    public ResponseEntity<Page<EmpruntResponse>> recupererEnCours(
+            @PageableDefault(size = 10, sort = "dateEmprunt") Pageable pageable) {
+        Page<EmpruntResponse> page = empruntService.recupererEnCours(pageable)
+                .map(EmpruntMapper::versResponse);
+        return ResponseEntity.ok(page); // 200 OK
     }
 }

@@ -44,6 +44,12 @@ public class EmpruntService {
             .findByRenduFalseAndDateRetourPrevueBefore(LocalDate.now(), tout)
             .getContent();
     }
+    /**
+     * Emprunts en cours : non rendus, quelle que soit la date de retour prévue.
+     */
+    public Page<Emprunt> recupererEnCours(Pageable pageable) {
+        return empruntRepository.findByRenduFalse(pageable);
+    }
 
     /**
      * Crée un emprunt. La date d'emprunt est fixée par le serveur, jamais par le client.
