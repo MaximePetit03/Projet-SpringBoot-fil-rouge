@@ -9,6 +9,7 @@ import jakarta.validation.Valid;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.data.web.PagedModel;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -26,10 +27,10 @@ public class LivreController {
     }
 
     @GetMapping("/livres")
-    public ResponseEntity<Page<LivreResponse>> listerTous(@PageableDefault(size = 5, sort = "id") Pageable pageable) {
+    public ResponseEntity<PagedModel<LivreResponse>> listerTous(@PageableDefault(size = 5, sort = "id") Pageable pageable) {
         Page<Livre> livresPage = livreService.recupererTous(pageable);
         Page<LivreResponse> responsePage = livresPage.map(livre -> LivreMapper.versResponse(livre));
-        return ResponseEntity.ok(responsePage);
+        return ResponseEntity.ok(new PagedModel<>(responsePage));
     }
 
     @GetMapping("/livres/{id}")
@@ -46,17 +47,17 @@ public class LivreController {
     }
 
     @GetMapping("/livres/disponibles")
-    public ResponseEntity<Page<LivreResponse>> listerDisponibles(@PageableDefault(size = 5, sort = "id") Pageable pageable) {
+    public ResponseEntity<PagedModel<LivreResponse>> listerDisponibles(@PageableDefault(size = 5, sort = "id") Pageable pageable) {
         Page<Livre> livresPage = livreService.listerStockDisponibles(pageable);
         Page<LivreResponse> responsePage = livresPage.map(livre -> LivreMapper.versResponse(livre));
-        return ResponseEntity.ok(responsePage);
+        return ResponseEntity.ok(new PagedModel<>(responsePage));
     }
 
     @GetMapping("/livres/recherche")
-    public ResponseEntity<Page<LivreResponse>> rechercher(@RequestParam String titre, @PageableDefault(size = 5, sort = "id") Pageable pageable) {
+    public ResponseEntity<PagedModel<LivreResponse>> rechercher(@RequestParam String titre, @PageableDefault(size = 5, sort = "id") Pageable pageable) {
         Page<Livre> livresPage = livreService.filtrer(titre, null, null, pageable);
         Page<LivreResponse> responsePage = livresPage.map(livre -> LivreMapper.versResponse(livre));
-        return ResponseEntity.ok(responsePage);
+        return ResponseEntity.ok(new PagedModel<>(responsePage));
     }
 
     @PostMapping("/livres")
