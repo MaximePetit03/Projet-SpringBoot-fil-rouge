@@ -70,7 +70,7 @@ public class LivreService {
     }
 
     public Page<Livre> listerStockDisponibles(Pageable pageable) {
-        return livreRepository.findByStock(pageable);
+        return livreRepository.findByStockGreaterThan(0, pageable);
     }
 
     public Optional<Livre> ajouterStock(Long id, Integer quantite) {
