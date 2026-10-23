@@ -48,11 +48,10 @@ public class EmpruntService {
     /**
      * Emprunts non rendus dont la date de retour prévue est dépassée.
      */
-    public List<Emprunt> recupererEnRetard() {
+    public Page<Emprunt> recupererEnRetard() {
         Pageable tout = PageRequest.of(0, Integer.MAX_VALUE);
         return empruntRepository
-                .findByRenduFalseAndDateRetourPrevueBefore(LocalDate.now(), tout)
-                .getContent();
+                .findByRenduFalseAndDateRetourPrevueBefore(LocalDate.now(), tout);
     }
 
     /**
