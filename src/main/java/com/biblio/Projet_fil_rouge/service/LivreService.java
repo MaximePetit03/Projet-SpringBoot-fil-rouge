@@ -75,6 +75,10 @@ public class LivreService {
     }
 
     public Page<Livre> filtrer(String titre, Double prixMin, Double prixMax, Pageable pageable) {
+        if ((titre == null || titre.trim().isEmpty()) && prixMin == null && prixMax == null) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Veuillez donner au moins un critère de recherche");
+        }
+
         return livreRepository.filtrer(titre, prixMin, prixMax, pageable);
     }
 
@@ -83,6 +87,10 @@ public class LivreService {
     }
 
     public Optional<Livre> ajouterStock(Long id, Integer quantite) {
+        if (quantite == 0) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "La quantité est obligatoire");
+        }
+
         return livreRepository.findById(id)
                 .map(livreExistant -> {
                     int stockActuel = livreExistant.getStock() != null ? livreExistant.getStock() : 0;
