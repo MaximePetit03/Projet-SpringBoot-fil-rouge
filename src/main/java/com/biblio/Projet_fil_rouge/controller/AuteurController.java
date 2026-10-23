@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 
 import com.biblio.Projet_fil_rouge.dto.AuteurRequest;
 import com.biblio.Projet_fil_rouge.dto.AuteurResponse;
@@ -30,6 +31,7 @@ import com.biblio.Projet_fil_rouge.service.AuteurService;
 import com.biblio.Projet_fil_rouge.service.LivreService;
 
 import jakarta.validation.Valid;
+
 
 @RestController
 @RequestMapping ("/api/v1")
@@ -97,4 +99,5 @@ public class AuteurController {
         }
         return ResponseEntity.notFound().build();
     }
+
 }

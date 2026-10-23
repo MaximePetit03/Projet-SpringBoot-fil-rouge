@@ -8,6 +8,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import com.biblio.Projet_fil_rouge.model.Auteur;
 import com.biblio.Projet_fil_rouge.repository.AuteurRepository;
+import com.biblio.Projet_fil_rouge.exception.ConflitException;
 
 @Service 
 public class AuteurService {
@@ -48,7 +49,7 @@ public class AuteurService {
             return false;
         }
         if (livreRepository.existsByAuteurId(id)) {
-            throw new IllegalStateException(
+            throw new ConflitException(
                     "Impossible de supprimer cet auteur car il possède encore des livres."
             );
         }
