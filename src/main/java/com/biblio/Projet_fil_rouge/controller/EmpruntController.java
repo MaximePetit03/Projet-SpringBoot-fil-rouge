@@ -5,8 +5,10 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.data.web.PagedModel;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -42,11 +44,13 @@ public class EmpruntController {
 
     // GET /api/v1/emprunts — Lister (paginé)
     @GetMapping
-    public ResponseEntity<Page<EmpruntResponse>> listerTous(
+    public ResponseEntity<PagedModel<EmpruntResponse>> listerTous(
             @PageableDefault(size = 10, sort = "dateEmprunt") Pageable pageable) {
-        Page<EmpruntResponse> page = empruntService.recupererTous(pageable)
-                .map(EmpruntMapper::versResponse);
-        return ResponseEntity.ok(page); // 200 OK
+        Page<Emprunt> page = empruntService.recupererTous(pageable);
+        List<EmpruntResponse> contenu = EmpruntMapper.versResponses(page.getContent());
+        Page<EmpruntResponse> empruntDto = new PageImpl<>(contenu, page.getPageable(), page.getTotalElements());
+        return ResponseEntity.ok(new PagedModel<>(empruntDto));
+        
     }
 
     // GET /api/v1/emprunts/{id} — Obtenir un emprunt
@@ -99,18 +103,20 @@ public class EmpruntController {
 
         // GET /api/v1/emprunts/en-retard — Emprunts non rendus dont la date prévue est dépassée
     @GetMapping("/en-retard")
-    public ResponseEntity<List<EmpruntResponse>> recupererEnRetard() {
-        List<EmpruntResponse> resultats = EmpruntMapper.versResponses(
-                empruntService.recupererEnRetard());
-        return ResponseEntity.ok(resultats);
+    public ResponseEntity<PagedModel<EmpruntResponse>> recupererEnRetard() {
+        Page<Emprunt> retard = empruntService.recupererEnRetard();
+        List<EmpruntResponse> contenu = EmpruntMapper.versResponses(retard.getContent());
+        Page<EmpruntResponse> empruntDto = new PageImpl<>(contenu, retard.getPageable(), retard.getTotalElements());
+        return ResponseEntity.ok(new PagedModel<>(empruntDto));
     }
 
     // GET /api/v1/emprunts/en-cours — Emprunts non rendus (paginés)
     @GetMapping("/en-cours")
-    public ResponseEntity<Page<EmpruntResponse>> recupererEnCours(
+    public ResponseEntity<PagedModel<EmpruntResponse>> recupererEnCours(
             @PageableDefault(size = 10, sort = "dateEmprunt") Pageable pageable) {
-        Page<EmpruntResponse> page = empruntService.recupererEnCours(pageable)
-                .map(EmpruntMapper::versResponse);
-        return ResponseEntity.ok(page); // 200 OK
+        Page<Emprunt> page = empruntService.recupererEnCours(pageable);
+        List<EmpruntResponse> contenu = EmpruntMapper.versResponses(page.getContent());
+        Page<EmpruntResponse> empruntDto = new PageImpl<>(contenu, page.getPageable(), page.getTotalElements());
+        return ResponseEntity.ok(new PagedModel<>(empruntDto));
     }
 }

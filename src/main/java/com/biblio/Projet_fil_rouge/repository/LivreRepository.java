@@ -8,9 +8,10 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.util.Optional;
+
 @Repository
 public interface LivreRepository extends JpaRepository<Livre, Long> {
-
 
     @Query("SELECT l FROM Livre l WHERE " +
             "(:titre IS NULL OR LOWER(l.titre) LIKE LOWER(CONCAT('%', :titre, '%'))) AND " +
@@ -24,10 +25,9 @@ public interface LivreRepository extends JpaRepository<Livre, Long> {
 
     Page<Livre> findByStockGreaterThan(int stock, Pageable pageable);
 
-    @Query("SELECT COUNT(l) > 0 FROM Livre l WHERE l.isbn = :isbn")
-    boolean findByIsbn(@Param("isbn") String isbn);
+    Page<Livre> findByAuteurId(Long auteurId, Pageable pageable);
 
     boolean existsByAuteurId(Long auteurId);
 
-    public Page<Livre> findByAuteurId(Long auteurId, Pageable pageable);
+    Optional<Livre> findByIsbn(String isbn);
 }
