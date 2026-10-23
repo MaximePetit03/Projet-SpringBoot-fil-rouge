@@ -20,10 +20,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.biblio.Projet_fil_rouge.dto.AuteurResponse;
 import com.biblio.Projet_fil_rouge.dto.EmpruntRequest;
 import com.biblio.Projet_fil_rouge.dto.EmpruntResponse;
-import com.biblio.Projet_fil_rouge.mapper.AuteurMapper;
 import com.biblio.Projet_fil_rouge.mapper.EmpruntMapper;
 import com.biblio.Projet_fil_rouge.model.Emprunt;
 import com.biblio.Projet_fil_rouge.service.EmpruntService;
