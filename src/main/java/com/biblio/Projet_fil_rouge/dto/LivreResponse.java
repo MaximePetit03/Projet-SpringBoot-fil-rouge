@@ -21,6 +21,7 @@ public class LivreResponse {
         this.auteurId = auteurId;
     }
 
+    public Long getId() {return id;}
     public String getTitre() {return titre;}
     public String getIsbn() {return isbn;}
     public Double getPrix() {return prix;}

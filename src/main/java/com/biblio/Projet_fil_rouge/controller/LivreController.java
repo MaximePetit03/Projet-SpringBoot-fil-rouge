@@ -20,17 +20,15 @@ import java.util.Optional;
 public class LivreController {
 
     private final LivreService livreService;
-    private final LivreMapper livreMapper;
 
     public LivreController(LivreService livreService, LivreMapper livreMapper) {
         this.livreService = livreService;
-        this.livreMapper = livreMapper;
     }
 
     @GetMapping("/livres")
     public ResponseEntity<Page<LivreResponse>> listerTous(@PageableDefault(size = 5, sort = "id") Pageable pageable) {
         Page<Livre> livresPage = livreService.recupererTous(pageable);
-        Page<LivreResponse> responsePage = livresPage.map(livre -> livreMapper.versResponse(livre));
+        Page<LivreResponse> responsePage = livresPage.map(livre -> LivreMapper.versResponse(livre));
         return ResponseEntity.ok(responsePage);
     }
 
@@ -40,7 +38,7 @@ public class LivreController {
 
         if (livreOpt.isPresent()) {
             Livre livre = livreOpt.get();
-            LivreResponse livreResponse = livreMapper.versResponse(livre);
+            LivreResponse livreResponse = LivreMapper.versResponse(livre);
             return ResponseEntity.ok(livreResponse);
         }
 
@@ -50,33 +48,33 @@ public class LivreController {
     @GetMapping("/livres/disponibles")
     public ResponseEntity<Page<LivreResponse>> listerDisponibles(@PageableDefault(size = 5, sort = "id") Pageable pageable) {
         Page<Livre> livresPage = livreService.listerStockDisponibles(pageable);
-        Page<LivreResponse> responsePage = livresPage.map(livre -> livreMapper.versResponse(livre));
+        Page<LivreResponse> responsePage = livresPage.map(livre -> LivreMapper.versResponse(livre));
         return ResponseEntity.ok(responsePage);
     }
 
     @GetMapping("/livres/recherche")
     public ResponseEntity<Page<LivreResponse>> rechercher(@RequestParam String titre, @PageableDefault(size = 5, sort = "id") Pageable pageable) {
         Page<Livre> livresPage = livreService.filtrer(titre, null, null, pageable);
-        Page<LivreResponse> responsePage = livresPage.map(livre -> livreMapper.versResponse(livre));
+        Page<LivreResponse> responsePage = livresPage.map(livre -> LivreMapper.versResponse(livre));
         return ResponseEntity.ok(responsePage);
     }
 
     @PostMapping("/livres")
     public ResponseEntity<LivreResponse> creer(@Valid @RequestBody LivreRequest livreRequest) {
-        Livre livreEntite = livreMapper.versEntite(livreRequest);
+        Livre livreEntite = LivreMapper.versEntite(livreRequest);
         Livre livreSauvegarde = livreService.creer(livreEntite);
-        LivreResponse livreResponse = livreMapper.versResponse(livreSauvegarde);
+        LivreResponse livreResponse = LivreMapper.versResponse(livreSauvegarde);
         return ResponseEntity.status(HttpStatus.CREATED).body(livreResponse);
     }
 
     @PutMapping("/livres/{id}")
     public ResponseEntity<LivreResponse> mettreAJour(@PathVariable Long id, @Valid @RequestBody LivreRequest livreRequest) {
-        Livre livreModifie = livreMapper.versEntite(livreRequest);
+        Livre livreModifie = LivreMapper.versEntite(livreRequest);
         Optional<Livre> livreMisAJourOpt = livreService.mettreAJour(id, livreModifie);
 
         if (livreMisAJourOpt.isPresent()) {
             Livre livreMisAJour = livreMisAJourOpt.get();
-            LivreResponse livreResponse = livreMapper.versResponse(livreMisAJour);
+            LivreResponse livreResponse = LivreMapper.versResponse(livreMisAJour);
             return ResponseEntity.ok(livreResponse);
         }
 
@@ -98,7 +96,7 @@ public class LivreController {
 
         if (livreOpt.isPresent()) {
             Livre livre = livreOpt.get();
-            LivreResponse livreResponse = livreMapper.versResponse(livre);
+            LivreResponse livreResponse = LivreMapper.versResponse(livre);
             return ResponseEntity.ok(livreResponse);
         }
 
