@@ -103,7 +103,7 @@ public class AuteurController {
         summary = "Creer un auteur"
     )
     @ApiResponses ({
-        @ApiResponse (responseCode = "201", description = "Les livres de l'auteur sont retournés avec succès"),
+        @ApiResponse (responseCode = "201", description = "L'auteur a été crée avec succès"),
         @ApiResponse (responseCode = "400", description = "La requête n'est pas bonne (BAD REQUEST)"),
     })
     @PostMapping ("/auteurs")

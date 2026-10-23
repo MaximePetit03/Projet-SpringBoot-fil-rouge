@@ -26,6 +26,10 @@ import com.biblio.Projet_fil_rouge.mapper.EmpruntMapper;
 import com.biblio.Projet_fil_rouge.model.Emprunt;
 import com.biblio.Projet_fil_rouge.service.EmpruntService;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 
 /**
@@ -34,6 +38,7 @@ import jakarta.validation.Valid;
  */
 @RestController
 @RequestMapping("/api/v1/emprunts")
+@Tag (name = "Emprunts", description = "Gestion des emprunts de livres de la bibliothèque")
 public class EmpruntController {
 
     private final EmpruntService empruntService;
@@ -42,6 +47,10 @@ public class EmpruntController {
         this.empruntService = empruntService;
     }
 
+    @Operation (
+        summary = "Lister tous les emprunts"
+    )
+    @ApiResponse (responseCode = "200", description = "Liste des emprunts retournée avec succès")
     // GET /api/v1/emprunts — Lister (paginé)
     @GetMapping
     public ResponseEntity<PagedModel<EmpruntResponse>> listerTous(
@@ -54,6 +63,13 @@ public class EmpruntController {
     }
 
     // GET /api/v1/emprunts/{id} — Obtenir un emprunt
+    @Operation (
+        summary = "Recherche un emprunt"
+    )
+    @ApiResponses ({
+        @ApiResponse (responseCode = "200", description = "L'emprunt est retourné avec succès"),
+        @ApiResponse (responseCode = "404", description = "L'emprunt n'existe pas"),
+    })
     @GetMapping("/{id}")
     public ResponseEntity<EmpruntResponse> obtenirParId(@PathVariable Long id) {
         Optional<Emprunt> resultat = empruntService.recupererParId(id);
@@ -63,6 +79,14 @@ public class EmpruntController {
         return ResponseEntity.ok(EmpruntMapper.versResponse(resultat.get())); // 200
     }
 
+
+    @Operation (
+        summary = "Creer un emprunt"
+    )
+    @ApiResponses ({
+        @ApiResponse (responseCode = "201", description = "L'emprunt a été crée avec succès"),
+        @ApiResponse (responseCode = "400", description = "La requête n'est pas bonne (BAD REQUEST)"),
+    })
     // POST /api/v1/emprunts — Créer un emprunt
     @PostMapping
     public ResponseEntity<EmpruntResponse> creer(@Valid @RequestBody EmpruntRequest request) {
@@ -73,6 +97,15 @@ public class EmpruntController {
                 .body(EmpruntMapper.versResponse(empruntCree));
     }
 
+
+    @Operation (
+        summary = "Changer une information d'un emprunt"
+    )
+    @ApiResponses ({
+        @ApiResponse (responseCode = "200", description = "L'emprunt a été crée avec succès"),
+        @ApiResponse (responseCode = "400", description = "La requête n'est pas bonne (BAD REQUEST)"),
+        @ApiResponse (responseCode = "409", description = "Une information entre en conflit (CONFLIT)"),
+    })
     // PATCH /api/v1/emprunts/{id}/retour — Enregistrer le retour
     @PatchMapping("/{id}/retour")
     public ResponseEntity<EmpruntResponse> retourner(@PathVariable Long id) {
@@ -83,6 +116,13 @@ public class EmpruntController {
         return ResponseEntity.ok(EmpruntMapper.versResponse(resultat.get())); // 200
     }
 
+    @Operation (
+        summary = "Supprimer un emprunt"
+    )
+    @ApiResponses ({
+        @ApiResponse (responseCode = "204", description = "L'emprunt a été supprimé avec succès"),
+        @ApiResponse (responseCode = "404", description = "L'emprunt n'existe pas"),
+    })
     // DELETE /api/v1/emprunts/{id} — Supprimer un emprunt
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> supprimer(@PathVariable Long id) {
@@ -92,16 +132,13 @@ public class EmpruntController {
         return ResponseEntity.notFound().build();                           // 404
     }
 
-    // GET /api/v1/emprunts/recherche?emprunteur=Lea — Emprunts d'une personne
-    @GetMapping("/recherche")
-    public ResponseEntity<List<EmpruntResponse>> rechercherParEmprunteur(
-            @RequestParam String emprunteur) {
-        List<EmpruntResponse> resultats = EmpruntMapper.versResponses(
-                empruntService.recupererParEmprunteur(emprunteur));
-        return ResponseEntity.ok(resultats);
-    }
-
-        // GET /api/v1/emprunts/en-retard — Emprunts non rendus dont la date prévue est dépassée
+    @Operation (
+        summary = "Retourner les emprunts en retard"
+    )
+    @ApiResponses ({
+        @ApiResponse (responseCode = "200", description = "Les emprunts en retard ont été retourné avec succès")
+    })
+    // GET /api/v1/emprunts/en-retard — Emprunts non rendus dont la date prévue est dépassée
     @GetMapping("/en-retard")
     public ResponseEntity<PagedModel<EmpruntResponse>> recupererEnRetard() {
         Page<Emprunt> retard = empruntService.recupererEnRetard();
@@ -110,6 +147,12 @@ public class EmpruntController {
         return ResponseEntity.ok(new PagedModel<>(empruntDto));
     }
 
+    @Operation (
+        summary = "Retourner les emprunts en cours"
+    )
+    @ApiResponses ({
+        @ApiResponse (responseCode = "200", description = "Les emprunts ont été crée avec succès")
+    })
     // GET /api/v1/emprunts/en-cours — Emprunts non rendus (paginés)
     @GetMapping("/en-cours")
     public ResponseEntity<PagedModel<EmpruntResponse>> recupererEnCours(
