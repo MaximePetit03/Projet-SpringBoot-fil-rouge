@@ -14,5 +14,4 @@ public interface EmpruntRepository extends JpaRepository<Emprunt, Long> {
 
     List<Emprunt> findByEmprunteur(@Param("emprunteur") String emprunteur);
 
-    List<Emprunt> findByRenduFauxEtRetourPrevueAvant(@Param("date") LocalDate date);
-}
+    List<Emprunt> findByRenduFalseAndDateRetourPrevueBefore(LocalDate date);}
