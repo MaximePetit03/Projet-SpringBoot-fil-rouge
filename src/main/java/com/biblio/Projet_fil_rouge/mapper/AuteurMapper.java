@@ -20,9 +20,9 @@ public class AuteurMapper {
     public static AuteurResponse versResponse(Auteur auteur) {
         return new AuteurResponse(
             auteur.getId(),
-            auteur.getNationalite(),
             auteur.getNom(),
-            auteur.getPrenom()
+            auteur.getPrenom(),
+            auteur.getNationalite()
         );
     }
     

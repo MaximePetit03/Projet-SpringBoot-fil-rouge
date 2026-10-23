@@ -96,4 +96,8 @@ public class LivreService {
                     return livreRepository.save(livreExistant);
                 });
     }
+
+    public Page<Livre> listerLivres(Long auteurId, Pageable pageable) {
+        return livreRepository.findByAuteurId(auteurId, pageable);
+    }
 }
