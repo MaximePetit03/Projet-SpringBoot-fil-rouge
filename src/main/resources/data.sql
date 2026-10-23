@@ -23,3 +23,7 @@ VALUES
     (1, 1, 'Marie Dupont', 'marie.dupont@email.com', '2026-09-01', '2026-09-15', '2026-09-10', TRUE, FALSE),
     (2, 3, 'Jean Martin', 'jean.martin@email.com', '2026-09-05', '2026-09-19', NULL, FALSE, TRUE),
     (3, 5, 'Sophie Bernard', 'sophie.bernard@email.com', '2026-09-20', '2026-10-04', NULL, FALSE, TRUE);
+
+ALTER TABLE auteurs ALTER COLUMN id RESTART WITH 6;
+ALTER TABLE livres ALTER COLUMN id RESTART WITH 9;
+ALTER TABLE emprunts ALTER COLUMN id RESTART WITH 4;
