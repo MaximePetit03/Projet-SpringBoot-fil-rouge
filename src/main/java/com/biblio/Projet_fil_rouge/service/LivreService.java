@@ -50,7 +50,7 @@ public class LivreService {
                     livreExistant.setTitre(livreModifie.getTitre());
                     livreExistant.setIsbn(livreModifie.getIsbn());
                     livreExistant.setPrix(livreModifie.getPrix());
-                    livreExistant.setDateDePublication(livreModifie.getDateDePublication());
+                    livreExistant.setAnneePublication(livreModifie.getAnneePublication());
                     livreExistant.setStock(livreModifie.getStock());
                     livreExistant.setAuteurId(livreModifie.getAuteurId());
                     return livreRepository.save(livreExistant);

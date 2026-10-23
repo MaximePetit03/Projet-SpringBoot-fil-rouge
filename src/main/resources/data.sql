@@ -6,7 +6,7 @@ VALUES
     (4, 'Tolkien', 'J.R.R.', 'Britannique'),
     (5, 'Asimov', 'Isaac', 'Américaine');
 
-INSERT INTO livres (id, titre, isbn, prix, date_de_publication, stock, auteur_id)
+INSERT INTO livres (id, titre, isbn, prix, annee_publication, stock, auteur_id)
 VALUES
     (1, 'Les Misérables', '978-2-07-040850-4', 12.50, 18620101, 5, 1),
     (2, 'Notre-Dame de Paris', '978-2-07-041239-6', 9.90, 18310101, 3, 1),

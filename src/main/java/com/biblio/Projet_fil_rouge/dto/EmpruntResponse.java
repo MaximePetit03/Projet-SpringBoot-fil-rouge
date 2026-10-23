@@ -17,7 +17,7 @@ public class EmpruntResponse {
 
     public EmpruntResponse(Long id, Long livreId, String emprunteur,
                            LocalDate dateEmprunt, LocalDate dateRetourPrevue,
-                           LocalDate dateRetourEffective, boolean rendu) {
+                           LocalDate dateRetourEffective, boolean rendu, boolean enRetard) {
         this.id = id;
         this.livreId = livreId;
         this.emprunteur = emprunteur;
