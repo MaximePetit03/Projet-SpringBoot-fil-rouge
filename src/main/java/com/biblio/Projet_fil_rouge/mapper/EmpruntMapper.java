@@ -1,5 +1,6 @@
 package com.biblio.Projet_fil_rouge.mapper;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,6 +30,11 @@ public final class EmpruntMapper {
 
     /** Entité → DTO de réponse. */
     public static EmpruntResponse versResponse(Emprunt emprunt) {
+        boolean enRetard = false;
+
+        if (LocalDate.now().isAfter(emprunt.getDateRetourPrevue())) {
+            enRetard = true;
+        }
 
         return new EmpruntResponse(
                 emprunt.getId(),
@@ -37,7 +43,9 @@ public final class EmpruntMapper {
                 emprunt.getDateEmprunt(),
                 emprunt.getDateRetourPrevue(),
                 emprunt.getDateRetourEffective(),
-                emprunt.isRendu());
+                emprunt.isRendu(),
+                enRetard
+            );
     }
 
     /** Liste d'entités → liste de DTOs de réponse. */
