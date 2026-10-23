@@ -39,7 +39,6 @@ public class EmpruntService {
 
     public List<Emprunt> recupererEnRetard() {
         return empruntRepository.findByRenduFalseAndDateRetourPrevueBefore(LocalDate.now());
-
     }
 
     /**

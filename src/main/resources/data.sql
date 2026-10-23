@@ -6,7 +6,7 @@ VALUES
     (4, 'Tolkien', 'J.R.R.', 'Britannique'),
     (5, 'Asimov', 'Isaac', 'Américaine');
 
-INSERT INTO livres (id, titre, isbn, prix, date_de_publication, stock, auteur_id)
+INSERT INTO livres (id, titre, isbn, prix, annee_publication, stock, auteur_id)
 VALUES
     (1, 'Les Misérables', '978-2-07-040850-4', 12.50, 18620101, 5, 1),
     (2, 'Notre-Dame de Paris', '978-2-07-041239-6', 9.90, 18310101, 3, 1),
@@ -18,8 +18,8 @@ VALUES
     (8, 'Le Hobbit', '978-2-267-02600-7', 15.00, 19370921, 0, 4);
 
 INSERT INTO emprunts
-(id, livre_id, emprunteur, email_emprunteur, date_emprunt, date_retour_prevue, date_retour_effective, rendu)
+(id, livre_id, emprunteur, email_emprunteur, date_emprunt, date_retour_prevue, date_retour_effective, rendu, retard)
 VALUES
-    (1, 1, 'Marie Dupont', 'marie.dupont@email.com', '2026-09-01', '2026-09-15', '2026-09-10', TRUE),
-    (2, 3, 'Jean Martin', 'jean.martin@email.com', '2026-09-05', '2026-09-19', NULL, FALSE),
-    (3, 5, 'Sophie Bernard', 'sophie.bernard@email.com', '2026-09-20', '2026-10-04', NULL, FALSE);
+    (1, 1, 'Marie Dupont', 'marie.dupont@email.com', '2026-09-01', '2026-09-15', '2026-09-10', TRUE, FALSE),
+    (2, 3, 'Jean Martin', 'jean.martin@email.com', '2026-09-05', '2026-09-19', NULL, FALSE, TRUE),
+    (3, 5, 'Sophie Bernard', 'sophie.bernard@email.com', '2026-09-20', '2026-10-04', NULL, FALSE, TRUE);

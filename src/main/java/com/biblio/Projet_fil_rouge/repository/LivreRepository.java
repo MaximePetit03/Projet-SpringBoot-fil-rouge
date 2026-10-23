@@ -21,7 +21,7 @@ public interface LivreRepository extends JpaRepository<Livre, Long> {
                         Pageable pageable);
 
 
-    Page<Livre> findByStock(Pageable pageable);
+    Page<Livre> findByStockGreaterThan(int stock, Pageable pageable);
 
     @Query("SELECT COUNT(l) > 0 FROM Livre l WHERE l.isbn = :isbn")
     boolean findByIsbn(@Param("isbn") String isbn);

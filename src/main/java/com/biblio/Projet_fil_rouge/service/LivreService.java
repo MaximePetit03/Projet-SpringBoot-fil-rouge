@@ -50,7 +50,7 @@ public class LivreService {
                     livreExistant.setTitre(livreModifie.getTitre());
                     livreExistant.setIsbn(livreModifie.getIsbn());
                     livreExistant.setPrix(livreModifie.getPrix());
-                    livreExistant.setDateDePublication(livreModifie.getDateDePublication());
+                    livreExistant.setAnneePublication(livreModifie.getAnneePublication());
                     livreExistant.setStock(livreModifie.getStock());
                     livreExistant.setAuteurId(livreModifie.getAuteurId());
                     return livreRepository.save(livreExistant);
@@ -70,7 +70,7 @@ public class LivreService {
     }
 
     public Page<Livre> listerStockDisponibles(Pageable pageable) {
-        return livreRepository.findByStock(pageable);
+        return livreRepository.findByStockGreaterThan(0, pageable);
     }
 
     public Optional<Livre> ajouterStock(Long id, Integer quantite) {

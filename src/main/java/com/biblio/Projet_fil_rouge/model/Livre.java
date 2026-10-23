@@ -1,11 +1,7 @@
 package com.biblio.Projet_fil_rouge.model;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.Max;
-import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Positive;
-import jakarta.validation.constraints.PositiveOrZero;
+import jakarta.validation.constraints.*;
 
 @Entity
 @Table(name = "livres")
@@ -15,11 +11,13 @@ public class Livre {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotBlank(message = "Le titre du livre est obligatoire")
+    @NotBlank(message = "Le titre est obligatoire")
+    @Size(max = 200, message = "Le titre ne doit pas dépasser 200 caractères")
     @Column(nullable = false)
     private String titre;
 
     @NotBlank(message = "L'isbn est obligatoire")
+    @Size(max = 20, message = "L'ISBN ne doit pas dépasser 20 caractères")
     @Column(nullable = false)
     private String isbn;
 
@@ -27,25 +25,26 @@ public class Livre {
     @Column(nullable = false)
     private Double prix;
 
-    @Min(value = 10000101, message = "La date de publication doit être valide (format YYYYMMDD)")
-    @Max(value = 99991231, message = "La date de publication doit être valide (format YYYYMMDD)")
-    @Column(name = "date_de_publication")
-    private Integer dateDePublication;
+    @Positive (message = "L'année de publication doit être positive")
+    @Column(name = "annee_publication")
+    private Integer anneePublication;
 
+    @NotNull(message = "Le stock est obligatoire")
     @PositiveOrZero(message = "Le stock ne peut pas être négatif")
     private Integer stock;
 
+    @NotNull(message = "L'identifiant de l'auteur est obligatoire")
     @Positive(message = "L'ID de l'auteur doit être positif")
     @Column(nullable = false)
     private Long auteurId;
 
     public Livre() {}
 
-    public Livre(String titre, String isbn, Double prix, Integer dateDePublication, Integer stock, Long auteurId) {
+    public Livre(String titre, String isbn, Double prix, Integer anneePublication, Integer stock, Long auteurId) {
         this.titre = titre;
         this.isbn = isbn;
         this.prix = prix;
-        this.dateDePublication = dateDePublication;
+        this.anneePublication = anneePublication;
         this.stock = stock;
         this.auteurId = auteurId;
     }
@@ -84,12 +83,12 @@ public class Livre {
         this.prix = prix;
     }
 
-    public Integer getDateDePublication() {
-        return dateDePublication;
+    public Integer getAnneePublication() {
+        return anneePublication;
     }
 
-    public void setDateDePublication(Integer dateDePublication) {
-        this.dateDePublication = dateDePublication;
+    public void setAnneePublication(Integer anneePublication) {
+        this.anneePublication = anneePublication;
     }
 
     public Integer getStock() {
