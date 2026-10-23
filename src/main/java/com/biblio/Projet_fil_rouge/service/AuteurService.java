@@ -1,8 +1,9 @@
 package com.biblio.Projet_fil_rouge.service;
 
-import java.util.List;
 import java.util.Optional;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.biblio.Projet_fil_rouge.model.Auteur;
@@ -16,8 +17,8 @@ public class AuteurService {
         this.auteurRepository = auteurRepository;
     }
 
-    public List<Auteur> recupererTous() {
-        return auteurRepository.findAll();
+    public Page<Auteur> recupererTous(Pageable pageable) {
+        return auteurRepository.findAll(pageable);
     }
 
     public Optional<Auteur> recupererParId(Long id) {
@@ -47,7 +48,7 @@ public class AuteurService {
         return false;
     }
 
-    public List<Auteur> trouverAuteurs(String nom) {
-        return auteurRepository.trouverParNom(nom);
+    public Page<Auteur> trouverAuteurs(String nom, Pageable pageable) {
+        return auteurRepository.findByNom(nom, pageable);
     }
 }

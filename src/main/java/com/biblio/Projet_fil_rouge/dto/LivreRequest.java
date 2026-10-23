@@ -1,5 +1,11 @@
 package com.biblio.Projet_fil_rouge.dto;
 
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Positive;
+import jakarta.validation.constraints.PositiveOrZero;
+
 public class LivreRequest {
 
     @NotBlank(message = "Le titre du livre est obligatoire")
@@ -11,9 +17,8 @@ public class LivreRequest {
     @Positive(message = "Le prix doit être positif")
     private Double prix;
 
-    @Min(value = 10000101, message = "La date de publication doit être valide (format YYYYMMDD)")
-    @Max(value = 99991231, message = "La date de publication doit être valide (format YYYYMMDD)")
-    private Integer dateDePublication;
+    @Positive (message = "L'année doit être positive")
+    private Integer anneePublication;
 
     @PositiveOrZero(message = "Le stock ne peut pas être négatif")
     private Integer stock;
@@ -30,8 +35,8 @@ public class LivreRequest {
     public Double getPrix() {return prix;}
     public void setPrix(Double prix) {this.prix = prix;}
 
-    public Integer getDateDePublication() {return dateDePublication;}
-    public void setDateDePublication(Integer dateDePublication) {this.dateDePublication = dateDePublication;}
+    public Integer getAnneePublication() {return anneePublication;}
+    public void setAnneePublication(Integer anneePublication) {this.anneePublication = anneePublication;}
 
     public Integer getStock() {return stock;}
     public void setStock(Integer stock) {this.stock = stock;}

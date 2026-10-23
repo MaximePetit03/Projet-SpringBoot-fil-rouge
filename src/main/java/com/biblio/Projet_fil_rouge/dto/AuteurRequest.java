@@ -1,12 +1,15 @@
 package com.biblio.Projet_fil_rouge.dto;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 
 public class AuteurRequest {
-    @NotBlank(message = "le nom est obligatoire")
+    @NotBlank(message = "Le nom est obligatoire")
+    @Size (max = 100, message = "Le nom ne doit pas dépasser 100 caractères" ) 
     private String nom;
-    @NotBlank(message = "le prenom est obligatoire")
+    @NotBlank(message = "Le prenom est obligatoire")
+    @Size (max = 100, message = "Le prénom ne doit pas dépasser 100 caractères")
     private String prenom;
-    @NotBlank(message = "La nationalité est obligatoire")
+    @Size (max = 50, message = "La nationalité ne doit pas dépasser 50 caractères")
     private String nationalite;
 
     public String getNom() {return nom;}
