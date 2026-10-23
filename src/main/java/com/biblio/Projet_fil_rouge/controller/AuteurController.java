@@ -1,6 +1,12 @@
 package com.biblio.Projet_fil_rouge.controller;
 
 import java.util.List;
+
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
+import org.springframework.data.web.PagedModel;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -29,9 +35,12 @@ public class AuteurController {
     }
 
     @GetMapping ("/auteurs")
-    public ResponseEntity<List<AuteurResponse>> touteLaListe() {
-        List<Auteur> auteurs = auteurService.recupererTous();
-        return ResponseEntity.ok(AuteurMapper.versResponses(auteurs));
+    public ResponseEntity<PagedModel<AuteurResponse>> touteLaListe(
+        @PageableDefault (size = 10, sort = "nom") Pageable pageable) {
+        Page<Auteur> auteurs = auteurService.recupererTous(pageable);
+        List<AuteurResponse> contenu = AuteurMapper.versResponses(auteurs.getContent());
+        Page<AuteurResponse> auteurDto = new PageImpl<>(contenu, auteurs.getPageable(), auteurs.getTotalElements());
+        return ResponseEntity.ok(new PagedModel<>(auteurDto));
     }
 
     @GetMapping ("/auteurs/{id}")
