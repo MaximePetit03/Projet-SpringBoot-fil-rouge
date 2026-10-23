@@ -74,6 +74,9 @@ public class Emprunt {
     @Column(nullable = false)
     private boolean rendu = false;
 
+    @Column (nullable = false)
+    private boolean retard;
+
     // --- Constructeurs ---
 
     /**

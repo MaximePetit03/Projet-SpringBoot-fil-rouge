@@ -1,5 +1,11 @@
 package com.biblio.Projet_fil_rouge.dto;
 
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Positive;
+import jakarta.validation.constraints.PositiveOrZero;
+
 public class LivreRequest {
 
     @NotBlank(message = "Le titre du livre est obligatoire")

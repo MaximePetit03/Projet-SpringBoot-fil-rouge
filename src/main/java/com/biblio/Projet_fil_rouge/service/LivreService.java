@@ -4,7 +4,9 @@ import com.biblio.Projet_fil_rouge.model.Livre;
 import com.biblio.Projet_fil_rouge.repository.LivreRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.Optional;
 
@@ -27,12 +29,24 @@ public class LivreService {
 
     public Livre creer(Livre livre) {
         livre.setId(null);
+
+        // Règle : 409 - ISBN déjà utilisé
+        if (livre.getIsbn() != null && livreRepository.findByIsbn(livre.getIsbn())) {
+            throw new ResponseStatusException(HttpStatus.CONFLICT, "ISBN déjà utilisé");
+        }
+
         return livreRepository.save(livre);
     }
 
     public Optional<Livre> mettreAJour(Long id, Livre livreModifie) {
         return livreRepository.findById(id)
                 .map(livreExistant -> {
+                    if (livreModifie.getIsbn() != null
+                            && !livreModifie.getIsbn().equals(livreExistant.getIsbn())
+                            && livreRepository.findByIsbn(livreModifie.getIsbn())) {
+                        throw new ResponseStatusException(HttpStatus.CONFLICT, "ISBN déjà utilisé");
+                    }
+
                     livreExistant.setTitre(livreModifie.getTitre());
                     livreExistant.setIsbn(livreModifie.getIsbn());
                     livreExistant.setPrix(livreModifie.getPrix());
@@ -55,7 +69,22 @@ public class LivreService {
         return livreRepository.filtrer(titre, prixMin, prixMax, pageable);
     }
 
-    public Page<Livre> listerStockDisponible(Pageable pageable) {
-        return livreRepository.stockDisponible(0, pageable);
+    public Page<Livre> listerStockDisponibles(Pageable pageable) {
+        return livreRepository.findByStock(pageable);
+    }
+
+    public Optional<Livre> ajouterStock(Long id, Integer quantite) {
+        return livreRepository.findById(id)
+                .map(livreExistant -> {
+                    int stockActuel = livreExistant.getStock() != null ? livreExistant.getStock() : 0;
+                    int nouveauStock = stockActuel + quantite;
+
+                    if (nouveauStock < 0) {
+                        nouveauStock = 0;
+                    }
+
+                    livreExistant.setStock(nouveauStock);
+                    return livreRepository.save(livreExistant);
+                });
     }
 }
