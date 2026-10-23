@@ -27,10 +27,9 @@ public class Livre {
     @Column(nullable = false)
     private Double prix;
 
-    @Min(value = 10000101, message = "La date de publication doit être valide (format YYYYMMDD)")
-    @Max(value = 99991231, message = "La date de publication doit être valide (format YYYYMMDD)")
-    @Column(name = "date_de_publication")
-    private Integer dateDePublication;
+    @Positive (message = "L'année de publication doit être positive")
+    @Column(name = "annee_publication")
+    private Integer anneePublication;
 
     @PositiveOrZero(message = "Le stock ne peut pas être négatif")
     private Integer stock;
@@ -41,11 +40,11 @@ public class Livre {
 
     public Livre() {}
 
-    public Livre(String titre, String isbn, Double prix, Integer dateDePublication, Integer stock, Long auteurId) {
+    public Livre(String titre, String isbn, Double prix, Integer anneePublication, Integer stock, Long auteurId) {
         this.titre = titre;
         this.isbn = isbn;
         this.prix = prix;
-        this.dateDePublication = dateDePublication;
+        this.anneePublication = anneePublication;
         this.stock = stock;
         this.auteurId = auteurId;
     }
@@ -84,12 +83,12 @@ public class Livre {
         this.prix = prix;
     }
 
-    public Integer getDateDePublication() {
-        return dateDePublication;
+    public Integer getAnneePublication() {
+        return anneePublication;
     }
 
-    public void setDateDePublication(Integer dateDePublication) {
-        this.dateDePublication = dateDePublication;
+    public void setAnneePublication(Integer anneePublication) {
+        this.anneePublication = anneePublication;
     }
 
     public Integer getStock() {
