@@ -34,8 +34,9 @@ public class LivreService {
             throw new ResponseStatusException(HttpStatus.CONFLICT, "ISBN déjà utilisé");
         }
 
-        if (livre.getIsbn() != null && livre.getIsbn().length() > 20) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "L'ISBN ne doit pas dépasser 20 caractères");
+        if ((livre.getIsbn() != null && livre.getIsbn().length() > 20)
+                || (livre.getTitre() != null && livre.getTitre().length() > 100)) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "L'ISBN ne doit pas dépasser 20 caractères ou le titre ne doit pas dépasser 100 caractères");
         }
 
         return livreRepository.save(livre);
@@ -50,8 +51,9 @@ public class LivreService {
                         throw new ResponseStatusException(HttpStatus.CONFLICT, "ISBN déjà utilisé");
                     }
 
-                    if (livreModifie.getIsbn() != null && livreModifie.getIsbn().length() > 20) {
-                        throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "L'ISBN ne doit pas dépasser 20 caractères");
+                    if ((livreModifie.getIsbn() != null && livreModifie.getIsbn().length() > 20)
+                            || (livreModifie.getTitre() != null && livreModifie.getTitre().length() > 100)) {
+                        throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "L'ISBN ne doit pas dépasser 20 caractères ou le titre ne doit pas dépasser 100 caractères");
                     }
 
                     livreExistant.setTitre(livreModifie.getTitre());
