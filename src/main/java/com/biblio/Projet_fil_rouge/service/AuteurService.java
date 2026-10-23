@@ -2,19 +2,21 @@ package com.biblio.Projet_fil_rouge.service;
 
 import java.util.Optional;
 
+import com.biblio.Projet_fil_rouge.repository.LivreRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-
 import com.biblio.Projet_fil_rouge.model.Auteur;
 import com.biblio.Projet_fil_rouge.repository.AuteurRepository;
 
 @Service 
 public class AuteurService {
-    private AuteurRepository auteurRepository;
+    private final AuteurRepository auteurRepository;
+    private final LivreRepository livreRepository;
 
-    public AuteurService(AuteurRepository auteurRepository) {
+    public AuteurService(AuteurRepository auteurRepository, LivreRepository livreRepository) {
         this.auteurRepository = auteurRepository;
+        this.livreRepository = livreRepository;
     }
 
     public Page<Auteur> recupererTous(Pageable pageable) {
@@ -41,11 +43,17 @@ public class AuteurService {
     }
 
     public boolean supprimerAuteur(Long id) {
-        if (auteurRepository.existsById(id)) {
+        if (!auteurRepository.existsById(id)) {
             auteurRepository.deleteById(id);
-            return true;
+            return false;
         }
-        return false;
+        if (livreRepository.existsByAuteurId(id)) {
+            throw new IllegalStateException(
+                    "Impossible de supprimer cet auteur car il possède encore des livres."
+            );
+        }
+
+        return true;
     }
 
     public Page<Auteur> trouverAuteurs(String nom, Pageable pageable) {

@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
@@ -38,7 +39,10 @@ public class EmpruntService {
     }
 
     public List<Emprunt> recupererEnRetard() {
-        return empruntRepository.findByRenduFauxEtRetourPrevueAvant(LocalDate.now());
+    Pageable tout = PageRequest.of(0, Integer.MAX_VALUE);
+    return empruntRepository
+            .findByRenduFalseAndDateRetourPrevueBefore(LocalDate.now(), tout)
+            .getContent();
     }
 
     /**

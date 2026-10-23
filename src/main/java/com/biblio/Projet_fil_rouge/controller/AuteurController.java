@@ -17,12 +17,17 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
 
 import com.biblio.Projet_fil_rouge.dto.AuteurRequest;
 import com.biblio.Projet_fil_rouge.dto.AuteurResponse;
+import com.biblio.Projet_fil_rouge.dto.LivreResponse;
 import com.biblio.Projet_fil_rouge.mapper.AuteurMapper;
+import com.biblio.Projet_fil_rouge.mapper.LivreMapper;
 import com.biblio.Projet_fil_rouge.model.Auteur;
+import com.biblio.Projet_fil_rouge.model.Livre;
 import com.biblio.Projet_fil_rouge.service.AuteurService;
+import com.biblio.Projet_fil_rouge.service.LivreService;
 
 import jakarta.validation.Valid;
 
@@ -30,26 +35,19 @@ import jakarta.validation.Valid;
 @RequestMapping ("/api/v1")
 public class AuteurController {
     private final AuteurService auteurService;
+    private final LivreService livreService;
 
-    public AuteurController(AuteurService auteurService) {
+    public AuteurController(AuteurService auteurService, LivreService livreService) {
         this.auteurService = auteurService;
+        this.livreService = livreService;
     }
 
-    @GetMapping ("/auteurs/recherche")
+    @GetMapping ("/auteurs")
     public ResponseEntity<PagedModel<AuteurResponse>> trouverAuteurParNom(
         @RequestParam (required = false) String nom,
         @PageableDefault (size = 10, sort = "nom") Pageable pageable
     ) {
         Page<Auteur> auteurs = auteurService.trouverAuteurs(nom, pageable);
-        List<AuteurResponse> contenu = AuteurMapper.versResponses(auteurs.getContent());
-        Page<AuteurResponse> auteurDto = new PageImpl<>(contenu, auteurs.getPageable(), auteurs.getTotalElements());
-        return ResponseEntity.ok(new PagedModel<>(auteurDto));
-    }
-
-    @GetMapping ("/auteurs")
-    public ResponseEntity<PagedModel<AuteurResponse>> touteLaListe(
-        @PageableDefault (size = 10, sort = "nom") Pageable pageable) {
-        Page<Auteur> auteurs = auteurService.recupererTous(pageable);
         List<AuteurResponse> contenu = AuteurMapper.versResponses(auteurs.getContent());
         Page<AuteurResponse> auteurDto = new PageImpl<>(contenu, auteurs.getPageable(), auteurs.getTotalElements());
         return ResponseEntity.ok(new PagedModel<>(auteurDto));
@@ -63,13 +61,25 @@ public class AuteurController {
         .orElse(ResponseEntity.notFound().build());
     }
 
+    @GetMapping ("/auteurs/{id}/livres")
+    public ResponseEntity<PagedModel<LivreResponse>> trouverLivresAuteur(
+        @PathVariable Long id,
+        @RequestParam (required = false) String nom,
+        @PageableDefault (size = 10, sort = "titre") Pageable pageable
+    ) {
+        Page<Livre> livresAuteur =  livreService.listerLivres(id, pageable);
+        List<LivreResponse> contenu = LivreMapper.versResponses(livresAuteur.getContent());
+        Page<LivreResponse> livreDto = new PageImpl<>(contenu, livresAuteur.getPageable(), livresAuteur.getTotalElements());
+        return ResponseEntity.ok(new PagedModel<>(livreDto));
+    }
+
 
     @PostMapping ("/auteurs")
     public ResponseEntity<AuteurResponse> creerAuteur(@Valid @RequestBody AuteurRequest auteurRequest) {
         Auteur auteur = AuteurMapper.versEntite(auteurRequest);
         Auteur nouvelAuteur = auteurService.creerAuteur(auteur);
         AuteurResponse auteurResponse = AuteurMapper.versResponse(nouvelAuteur);
-        return ResponseEntity.ok().body(auteurResponse);
+        return ResponseEntity.status(HttpStatus.CREATED).body(auteurResponse);
     }
 
     @PutMapping ("/auteurs/{id}")
@@ -87,6 +97,4 @@ public class AuteurController {
         }
         return ResponseEntity.notFound().build();
     }
-
-    
 }

@@ -1,11 +1,11 @@
 package com.biblio.Projet_fil_rouge.model;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.Max;
-import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
 import jakarta.validation.constraints.PositiveOrZero;
+import jakarta.validation.constraints.Size;
 
 @Entity
 @Table(name = "livres")
@@ -15,11 +15,13 @@ public class Livre {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotBlank(message = "Le titre du livre est obligatoire")
+    @NotBlank(message = "Le titre est obligatoire")
+    @Size (max = 200, message = "Le titre ne doit pas dépasser 200 caractères")
     @Column(nullable = false)
     private String titre;
 
     @NotBlank(message = "L'isbn est obligatoire")
+    @Size(max = 20, message = "L'ISBN ne doit pas dépasser 20 caractères")
     @Column(nullable = false)
     private String isbn;
 
@@ -31,9 +33,11 @@ public class Livre {
     @Column(name = "annee_publication")
     private Integer anneePublication;
 
+    @NotNull (message = "Le stock est obligatoire")
     @PositiveOrZero(message = "Le stock ne peut pas être négatif")
     private Integer stock;
 
+    @NotNull(message = "L'identifiant de l'auteur est obligatoire")
     @Positive(message = "L'ID de l'auteur doit être positif")
     @Column(nullable = false)
     private Long auteurId;
