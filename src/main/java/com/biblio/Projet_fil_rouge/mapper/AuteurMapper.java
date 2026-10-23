@@ -4,8 +4,6 @@ import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import org.springframework.data.domain.Page;
-
 import com.biblio.Projet_fil_rouge.dto.AuteurRequest;
 import com.biblio.Projet_fil_rouge.dto.AuteurResponse;
 import com.biblio.Projet_fil_rouge.model.Auteur;

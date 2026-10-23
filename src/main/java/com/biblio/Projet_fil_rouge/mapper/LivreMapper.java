@@ -28,6 +28,7 @@ public class LivreMapper {
 
     public static LivreResponse versResponse(Livre livre) {
         return new LivreResponse(
+                livre.getId(),
                 livre.getTitre(),
                 livre.getIsbn(),
                 livre.getPrix(),
