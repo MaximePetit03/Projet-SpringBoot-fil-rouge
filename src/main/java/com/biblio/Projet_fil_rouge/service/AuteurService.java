@@ -49,6 +49,6 @@ public class AuteurService {
     }
 
     public Page<Auteur> trouverAuteurs(String nom, Pageable pageable) {
-        return auteurRepository.trouverParNom(nom, pageable);
+        return auteurRepository.findByNom(nom, pageable);
     }
 }

@@ -19,7 +19,7 @@ public class LivreMapper {
         livre.setTitre(request.getTitre());
         livre.setIsbn(request.getIsbn());
         livre.setPrix(request.getPrix());
-        livre.setDateDePublication(request.getDateDePublication());
+        livre.setAnneePublication(request.getAnneePublication());
         livre.setStock(request.getStock());
         livre.setAuteurId(request.getAuteurId());
 
@@ -32,7 +32,7 @@ public class LivreMapper {
                 livre.getTitre(),
                 livre.getIsbn(),
                 livre.getPrix(),
-                livre.getDateDePublication(),
+                livre.getAnneePublication(),
                 livre.getStock(),
                 livre.getAuteurId()
         );

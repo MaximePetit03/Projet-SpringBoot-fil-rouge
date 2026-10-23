@@ -31,7 +31,7 @@ public class LivreService {
         livre.setId(null);
 
         // Règle : 409 - ISBN déjà utilisé
-        if (livre.getIsbn() != null && livreRepository.existeParIsbn(livre.getIsbn())) {
+        if (livre.getIsbn() != null && livreRepository.findByIsbn(livre.getIsbn())) {
             throw new ResponseStatusException(HttpStatus.CONFLICT, "ISBN déjà utilisé");
         }
 
@@ -43,14 +43,14 @@ public class LivreService {
                 .map(livreExistant -> {
                     if (livreModifie.getIsbn() != null
                             && !livreModifie.getIsbn().equals(livreExistant.getIsbn())
-                            && livreRepository.existeParIsbn(livreModifie.getIsbn())) {
+                            && livreRepository.findByIsbn(livreModifie.getIsbn())) {
                         throw new ResponseStatusException(HttpStatus.CONFLICT, "ISBN déjà utilisé");
                     }
 
                     livreExistant.setTitre(livreModifie.getTitre());
                     livreExistant.setIsbn(livreModifie.getIsbn());
                     livreExistant.setPrix(livreModifie.getPrix());
-                    livreExistant.setDateDePublication(livreModifie.getDateDePublication());
+                    livreExistant.setAnneePublication(livreModifie.getAnneePublication());
                     livreExistant.setStock(livreModifie.getStock());
                     livreExistant.setAuteurId(livreModifie.getAuteurId());
                     return livreRepository.save(livreExistant);
@@ -70,7 +70,7 @@ public class LivreService {
     }
 
     public Page<Livre> listerStockDisponibles(Pageable pageable) {
-        return livreRepository.stockDisponibles(pageable);
+        return livreRepository.findByStock(pageable);
     }
 
     public Optional<Livre> ajouterStock(Long id, Integer quantite) {
