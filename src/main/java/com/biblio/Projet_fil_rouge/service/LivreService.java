@@ -30,9 +30,13 @@ public class LivreService {
     public Livre creer(Livre livre) {
         livre.setId(null);
 
-        // Règle : 409 - ISBN déjà utilisé
-        if (livre.getIsbn() != null && livreRepository.findByIsbn(livre.getIsbn())) {
+        if (livre.getIsbn() != null && livreRepository.findByIsbn(livre.getIsbn()).isPresent()) {
             throw new ResponseStatusException(HttpStatus.CONFLICT, "ISBN déjà utilisé");
+        }
+
+        if ((livre.getIsbn() != null && livre.getIsbn().length() > 20)
+                || (livre.getTitre() != null && livre.getTitre().length() > 100)) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "L'ISBN ne doit pas dépasser 20 caractères ou le titre ne doit pas dépasser 100 caractères");
         }
 
         return livreRepository.save(livre);
@@ -43,8 +47,13 @@ public class LivreService {
                 .map(livreExistant -> {
                     if (livreModifie.getIsbn() != null
                             && !livreModifie.getIsbn().equals(livreExistant.getIsbn())
-                            && livreRepository.findByIsbn(livreModifie.getIsbn())) {
+                            && livreRepository.findByIsbn(livreModifie.getIsbn()).isPresent()) {
                         throw new ResponseStatusException(HttpStatus.CONFLICT, "ISBN déjà utilisé");
+                    }
+
+                    if ((livreModifie.getIsbn() != null && livreModifie.getIsbn().length() > 20)
+                            || (livreModifie.getTitre() != null && livreModifie.getTitre().length() > 100)) {
+                        throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "L'ISBN ne doit pas dépasser 20 caractères ou le titre ne doit pas dépasser 100 caractères");
                     }
 
                     livreExistant.setTitre(livreModifie.getTitre());
