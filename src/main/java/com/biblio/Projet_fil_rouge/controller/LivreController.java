@@ -21,7 +21,7 @@ public class LivreController {
 
     private final LivreService livreService;
 
-    public LivreController(LivreService livreService, LivreMapper livreMapper) {
+    public LivreController(LivreService livreService) {
         this.livreService = livreService;
     }
 
