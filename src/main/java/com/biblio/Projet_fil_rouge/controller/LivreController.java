@@ -68,11 +68,18 @@ public class LivreController {
     }
 
     @GetMapping("/livres/recherche")
-    @Operation(summary = "Rechercher des livres par titre", description = "Permet de filtrer et rechercher des livres par leur titre")
+    @Operation(summary = "Rechercher des livres", description = "Permet de filtrer et rechercher des livres par titre, prix min ou prix max")
     @ApiResponse(responseCode = "200", description = "Résultats de la recherche récupérés avec succès")
-    public ResponseEntity<PagedModel<LivreResponse>> rechercher(@RequestParam String titre, @PageableDefault(size = 5, sort = "id") Pageable pageable) {
-        Page<Livre> livresPage = livreService.filtrer(titre, null, null, pageable);
-        Page<LivreResponse> responsePage = livresPage.map(livre -> LivreMapper.versResponse(livre));
+    @ApiResponse(responseCode = "400", description = "Critères de recherche manquants")
+    public ResponseEntity<PagedModel<LivreResponse>> rechercher(
+            @RequestParam(required = false) String titre,
+            @RequestParam(required = false) Double prixMin,
+            @RequestParam(required = false) Double prixMax,
+            @PageableDefault(size = 5, sort = "id") Pageable pageable) {
+
+        Page<Livre> livresPage = livreService.filtrer(titre, prixMin, prixMax, pageable);
+
+        Page<LivreResponse> responsePage = livresPage.map(LivreMapper::versResponse);
         return ResponseEntity.ok(new PagedModel<>(responsePage));
     }
 

@@ -13,13 +13,14 @@ import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.server.ResponseStatusException;
 
 /**
  * Transforme les exceptions en réponses JSON structurées.
  * Les messages internes ne sont jamais renvoyés au client pour les erreurs serveur.
  */
 @RestControllerAdvice
-public class GlobalExceptionHandler {
+public class    GlobalExceptionHandler {
 
     private static final Logger log = LoggerFactory.getLogger(GlobalExceptionHandler.class);
 
@@ -71,6 +72,14 @@ public class GlobalExceptionHandler {
     public ResponseEntity<Map<String, Object>> handleArgumentInvalide(IllegalArgumentException ex) {
         return ResponseEntity.badRequest()
                 .body(construireErreur(HttpStatus.BAD_REQUEST, ex.getMessage()));
+    }
+
+    @ExceptionHandler(ResponseStatusException.class)
+    public ResponseEntity<Map<String, Object>> handleResponseStatus(ResponseStatusException ex) {
+        HttpStatus statut = HttpStatus.valueOf(ex.getStatusCode().value());
+        String message = ex.getReason() != null ? ex.getReason() : statut.getReasonPhrase();
+        return ResponseEntity.status(statut)
+                .body(construireErreur(statut, message));
     }
 
     @ExceptionHandler(Exception.class)
