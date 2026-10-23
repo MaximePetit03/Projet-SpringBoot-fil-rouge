@@ -25,4 +25,6 @@ public interface LivreRepository extends JpaRepository<Livre, Long> {
 
     @Query("SELECT COUNT(l) > 0 FROM Livre l WHERE l.isbn = :isbn")
     boolean findByIsbn(@Param("isbn") String isbn);
+
+    public Page<Livre> findByAuteurId(Long auteurId, Pageable pageable);
 }

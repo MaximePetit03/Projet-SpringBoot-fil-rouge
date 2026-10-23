@@ -1,6 +1,5 @@
 package com.biblio.Projet_fil_rouge.controller;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.data.domain.Page;
@@ -18,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
 
 import com.biblio.Projet_fil_rouge.dto.AuteurRequest;
 import com.biblio.Projet_fil_rouge.dto.AuteurResponse;
@@ -65,17 +65,11 @@ public class AuteurController {
     public ResponseEntity<PagedModel<LivreResponse>> trouverLivresAuteur(
         @PathVariable Long id,
         @RequestParam (required = false) String nom,
-        @PageableDefault (size = 10, sort = "nom") Pageable pageable
+        @PageableDefault (size = 10, sort = "titre") Pageable pageable
     ) {
-        List<Livre> livresAuteur =  new ArrayList<>();
-        Page<Livre> livres = livreService.recupererTous(pageable);
-        for (Livre livre : livres) {
-            if (livre.getAuteurId().equals(id)) {
-                livresAuteur.add(livre);
-            }
-        }
-        List<LivreResponse> contenu = LivreMapper.versResponses(livresAuteur);
-        Page<LivreResponse> livreDto = new PageImpl<>(contenu, livres.getPageable(), livres.getTotalElements());
+        Page<Livre> livresAuteur =  livreService.listerLivres(id, pageable);
+        List<LivreResponse> contenu = LivreMapper.versResponses(livresAuteur.getContent());
+        Page<LivreResponse> livreDto = new PageImpl<>(contenu, livresAuteur.getPageable(), livresAuteur.getTotalElements());
         return ResponseEntity.ok(new PagedModel<>(livreDto));
     }
 
@@ -85,7 +79,7 @@ public class AuteurController {
         Auteur auteur = AuteurMapper.versEntite(auteurRequest);
         Auteur nouvelAuteur = auteurService.creerAuteur(auteur);
         AuteurResponse auteurResponse = AuteurMapper.versResponse(nouvelAuteur);
-        return ResponseEntity.ok().body(auteurResponse);
+        return ResponseEntity.status(HttpStatus.CREATED).body(auteurResponse);
     }
 
     @PutMapping ("/auteurs/{id}")
@@ -103,6 +97,4 @@ public class AuteurController {
         }
         return ResponseEntity.notFound().build();
     }
-
-    
 }
