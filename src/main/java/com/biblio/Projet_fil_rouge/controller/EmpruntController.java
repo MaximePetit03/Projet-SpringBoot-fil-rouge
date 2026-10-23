@@ -27,7 +27,7 @@ import com.biblio.Projet_fil_rouge.service.EmpruntService;
 import jakarta.validation.Valid;
 
 /**
- * Contrôleur REST pour les emprunts.
+ * Contrôleur REST pour les emprunts
  * Entrées : EmpruntRequest. Sorties : EmpruntResponse.
  */
 @RestController
