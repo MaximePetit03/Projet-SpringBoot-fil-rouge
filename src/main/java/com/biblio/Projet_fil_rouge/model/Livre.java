@@ -1,7 +1,11 @@
 package com.biblio.Projet_fil_rouge.model;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Positive;
+import jakarta.validation.constraints.PositiveOrZero;
+import jakarta.validation.constraints.Size;
 
 @Entity
 @Table(name = "livres")
@@ -12,7 +16,7 @@ public class Livre {
     private Long id;
 
     @NotBlank(message = "Le titre est obligatoire")
-    @Size(max = 200, message = "Le titre ne doit pas dépasser 200 caractères")
+    @Size (max = 200, message = "Le titre ne doit pas dépasser 200 caractères")
     @Column(nullable = false)
     private String titre;
 
@@ -29,7 +33,7 @@ public class Livre {
     @Column(name = "annee_publication")
     private Integer anneePublication;
 
-    @NotNull(message = "Le stock est obligatoire")
+    @NotNull (message = "Le stock est obligatoire")
     @PositiveOrZero(message = "Le stock ne peut pas être négatif")
     private Integer stock;
 
