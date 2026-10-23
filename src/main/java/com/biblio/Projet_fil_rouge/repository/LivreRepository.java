@@ -27,5 +27,7 @@ public interface LivreRepository extends JpaRepository<Livre, Long> {
 
     Page<Livre> findByAuteurId(Long auteurId, Pageable pageable);
 
+    boolean existsByAuteurId(Long auteurId);
+
     Optional<Livre> findByIsbn(String isbn);
 }
