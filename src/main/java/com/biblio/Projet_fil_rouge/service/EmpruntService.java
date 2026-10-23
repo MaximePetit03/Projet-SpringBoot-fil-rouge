@@ -34,11 +34,11 @@ public class EmpruntService {
     }
 
     public List<Emprunt> recupererParEmprunteur(String emprunteur) {
-        return empruntRepository.trouverparEmprunteur(emprunteur);
+        return empruntRepository.findByEmprunteur(emprunteur);
     }
 
     public List<Emprunt> recupererEnRetard() {
-        return empruntRepository.trouverParRenduFauxEtRetourPrevueAvant(LocalDate.now());
+        return empruntRepository.findByRenduFauxEtRetourPrevueAvant(LocalDate.now());
     }
 
     /**

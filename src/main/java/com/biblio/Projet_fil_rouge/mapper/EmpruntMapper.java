@@ -29,11 +29,11 @@ public final class EmpruntMapper {
 
     /** Entité → DTO de réponse. */
     public static EmpruntResponse versResponse(Emprunt emprunt) {
+
         return new EmpruntResponse(
                 emprunt.getId(),
                 emprunt.getLivreId(),
                 emprunt.getEmprunteur(),
-                emprunt.getEmailEmprunteur(),
                 emprunt.getDateEmprunt(),
                 emprunt.getDateRetourPrevue(),
                 emprunt.getDateRetourEffective(),
