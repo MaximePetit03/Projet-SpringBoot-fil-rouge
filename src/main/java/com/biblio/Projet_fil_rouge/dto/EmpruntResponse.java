@@ -16,9 +16,7 @@ public class EmpruntResponse {
     private final LocalDate dateRetourEffective;
     private final boolean rendu;
 
-    public EmpruntResponse(Long id, Long livreId, String emprunteur, String emailEmprunteur,
-                           LocalDate dateEmprunt, LocalDate dateRetourPrevue,
-                           LocalDate dateRetourEffective, boolean rendu) {
+    public EmpruntResponse(Long id, Long livreId, String emprunteur, String emailEmprunteur,LocalDate dateEmprunt, LocalDate dateRetourPrevue,LocalDate dateRetourEffective, boolean rendu) {
         this.id = id;
         this.livreId = livreId;
         this.emprunteur = emprunteur;
