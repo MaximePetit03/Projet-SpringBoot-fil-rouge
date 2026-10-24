@@ -1,6 +1,8 @@
 package com.biblio.Projet_fil_rouge.service;
 
+import com.biblio.Projet_fil_rouge.exception.ResourceIntrouvableException;
 import com.biblio.Projet_fil_rouge.model.Livre;
+import com.biblio.Projet_fil_rouge.repository.AuteurRepository;
 import com.biblio.Projet_fil_rouge.repository.LivreRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -8,15 +10,18 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.net.http.HttpResponse;
 import java.util.Optional;
 
 @Service
 public class LivreService {
 
     private final LivreRepository livreRepository;
+    private final AuteurRepository auteurRepository;
 
-    public LivreService(LivreRepository livreRepository) {
+    public LivreService(LivreRepository livreRepository, AuteurRepository auteurRepository) {
         this.livreRepository = livreRepository;
+        this.auteurRepository = auteurRepository;
     }
 
     public Page<Livre> recupererTous(Pageable pageable) {
@@ -106,6 +111,9 @@ public class LivreService {
     }
 
     public Page<Livre> listerLivres(Long auteurId, Pageable pageable) {
+        if (!auteurRepository.existsById(auteurId)) {
+            throw new ResourceIntrouvableException("Auteur non trouvé avec l'ID : " + auteurId);
+        }
         return livreRepository.findByAuteurId(auteurId, pageable);
     }
 }

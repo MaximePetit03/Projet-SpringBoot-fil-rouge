@@ -45,7 +45,6 @@ public class AuteurService {
 
     public boolean supprimerAuteur(Long id) {
         if (!auteurRepository.existsById(id)) {
-            auteurRepository.deleteById(id);
             return false;
         }
         if (livreRepository.existsByAuteurId(id)) {
@@ -53,7 +52,7 @@ public class AuteurService {
                     "Impossible de supprimer cet auteur car il possède encore des livres."
             );
         }
-
+        auteurRepository.deleteById(id);
         return true;
     }
 
