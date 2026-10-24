@@ -13,6 +13,7 @@ import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.servlet.NoHandlerFoundException;
 
@@ -55,6 +56,14 @@ public class    GlobalExceptionHandler {
         Map<String, Object> reponse = construireErreur(HttpStatus.BAD_REQUEST, "Validation échouée");
         reponse.put("details", champs);
         return ResponseEntity.badRequest().body(reponse);
+    }
+
+    @ExceptionHandler(MethodArgumentTypeMismatchException.class)
+    public ResponseEntity<Map<String, Object>> handleTypeMismatch(MethodArgumentTypeMismatchException ex) {
+        String nomParametre = ex.getName();
+        String message = "Identifiant non numérique";
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                .body(construireErreur(HttpStatus.BAD_REQUEST, message));
     }
 
     @ExceptionHandler(HttpMessageNotReadableException.class)
