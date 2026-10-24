@@ -1,6 +1,7 @@
 package com.biblio.Projet_fil_rouge.service;
 
 import com.biblio.Projet_fil_rouge.model.Livre;
+import com.biblio.Projet_fil_rouge.repository.AuteurRepository;
 import com.biblio.Projet_fil_rouge.repository.LivreRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -14,9 +15,11 @@ import java.util.Optional;
 public class LivreService {
 
     private final LivreRepository livreRepository;
+    private final AuteurRepository auteurRepository;
 
-    public LivreService(LivreRepository livreRepository) {
+    public LivreService(LivreRepository livreRepository, AuteurRepository auteurRepository) {
         this.livreRepository = livreRepository;
+        this.auteurRepository = auteurRepository;
     }
 
     public Page<Livre> recupererTous(Pageable pageable) {
@@ -29,6 +32,10 @@ public class LivreService {
 
     public Livre creer(Livre livre) {
         livre.setId(null);
+
+        if (livre.getAuteurId() != null && !auteurRepository.existsById(livre.getAuteurId())) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "L'auteur avec cet ID n'existe pas");
+        }
 
         if (livre.getIsbn() != null && livreRepository.findByIsbn(livre.getIsbn()).isPresent()) {
             throw new ResponseStatusException(HttpStatus.CONFLICT, "ISBN déjà utilisé");
