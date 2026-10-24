@@ -35,6 +35,10 @@ public class LivreService {
     public Livre creer(Livre livre) {
         livre.setId(null);
 
+        if (livre.getAuteurId() != null && !auteurRepository.existsById(livre.getAuteurId())) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "L'auteur avec cet ID n'existe pas");
+        }
+
         if (livre.getIsbn() != null && livreRepository.findByIsbn(livre.getIsbn()).isPresent()) {
             throw new ResponseStatusException(HttpStatus.CONFLICT, "ISBN déjà utilisé");
         }
