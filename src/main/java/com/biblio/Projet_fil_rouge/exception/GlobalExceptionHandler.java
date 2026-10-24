@@ -14,6 +14,7 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.server.ResponseStatusException;
+import org.springframework.web.servlet.NoHandlerFoundException;
 
 /**
  * Transforme les exceptions en réponses JSON structurées.
@@ -88,5 +89,12 @@ public class    GlobalExceptionHandler {
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                 .body(construireErreur(HttpStatus.INTERNAL_SERVER_ERROR,
                         "Une erreur interne est survenue"));
+    }
+
+    @ExceptionHandler(NoHandlerFoundException.class)
+    public ResponseEntity<Map<String, Object>> handleNoHandlerFound(NoHandlerFoundException ex) {
+        String message = "La route demandée n'existe pas ";
+        return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                .body(construireErreur(HttpStatus.NOT_FOUND, message));
     }
 }
