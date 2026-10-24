@@ -102,7 +102,8 @@ public class ClientBibliotheque {
 
 
         chemin = "/auteurs";
-        String corpsAuteur = """ {
+        String corpsAuteur = """
+        {
                   "nom": "Verne",
                   "prenom": "Jules",
                   "nationalite": "Française"
@@ -116,7 +117,8 @@ public class ClientBibliotheque {
 
 
         chemin = "/emprunts";
-        String corpsEmprunt = """ {
+        String corpsEmprunt = """
+        {
                   "livreId": 2,
                   "emprunteur": "Alice Durand",
                   "emailEmprunteur": "alice.durand@email.com"
@@ -130,7 +132,8 @@ public class ClientBibliotheque {
 
 
         chemin = "/emprunts";
-        String corpsEmpruntLivre8 = """ {
+        String corpsEmpruntLivre8 = """
+        {
                   "livreId": 8,
                   "emprunteur": "Alice Durand",
                   "emailEmprunteur": "alice.durand@email.com"
@@ -171,7 +174,8 @@ public class ClientBibliotheque {
 
 
         chemin = "/livres";
-        String corpsLivreInvalide = """ {
+        String corpsLivreInvalide = """
+        {
                   "titre": "",
                   "isbn": "978-2-0000-0000-0",
                   "prix": -5,
