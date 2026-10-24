@@ -24,8 +24,7 @@ public final class EmpruntMapper {
         return new Emprunt(
                 request.getLivreId(),
                 request.getEmprunteur(),
-                request.getEmailEmprunteur(),
-                request.getDateRetourPrevue());
+                request.getEmailEmprunteur());
     }
 
     /** Entité → DTO de réponse. */

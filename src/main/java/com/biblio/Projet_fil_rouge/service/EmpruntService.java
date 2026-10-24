@@ -69,11 +69,7 @@ public class EmpruntService {
      */
     @Transactional
     public Emprunt creer(Emprunt emprunt) {
-        LocalDate retourPrevu = emprunt.getDateRetourPrevue();
-        if (retourPrevu == null || retourPrevu.isBefore(LocalDate.now())) {
-            throw new IllegalArgumentException(
-                    "La date de retour prévue est obligatoire et ne peut pas être dans le passé.");
-        }
+        emprunt.setDateRetourPrevue(LocalDate.now().plusDays(14));
 
         Livre livre = trouverLivre(emprunt.getLivreId());
         decrementerStock(livre);
