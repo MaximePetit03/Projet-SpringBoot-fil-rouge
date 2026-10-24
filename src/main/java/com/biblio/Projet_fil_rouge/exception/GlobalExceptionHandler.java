@@ -60,7 +60,6 @@ public class    GlobalExceptionHandler {
 
     @ExceptionHandler(MethodArgumentTypeMismatchException.class)
     public ResponseEntity<Map<String, Object>> handleTypeMismatch(MethodArgumentTypeMismatchException ex) {
-        String nomParametre = ex.getName();
         String message = "Identifiant non numérique";
         return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                 .body(construireErreur(HttpStatus.BAD_REQUEST, message));
