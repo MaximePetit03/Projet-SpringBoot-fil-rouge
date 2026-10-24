@@ -89,11 +89,10 @@ public class Emprunt {
      * Constructeur avec les champs saisis par l'utilisateur
      * (sans l'id, la date d'emprunt ni le statut de retour).
      */
-    public Emprunt(Long livreId, String emprunteur, String emailEmprunteur,LocalDate dateRetourPrevue) {
+    public Emprunt(Long livreId, String emprunteur, String emailEmprunteur) {
         this.livreId = livreId;
         this.emprunteur = emprunteur;
         this.emailEmprunteur = emailEmprunteur;
-        this.dateRetourPrevue = dateRetourPrevue;
     }
 
     // --- Getters et Setters ---

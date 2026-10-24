@@ -1,9 +1,7 @@
 package com.biblio.Projet_fil_rouge.dto;
 
-import java.time.LocalDate;
 
 import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.FutureOrPresent;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
@@ -25,10 +23,6 @@ public class EmpruntRequest {
     @Email (message = "L'email doit être valide")
     private String emailEmprunteur;
 
-    @NotNull(message = "La date de retour prévue est obligatoire")
-    @FutureOrPresent (message = "La date de retour prévue ne peut pas être dans le passé")
-    private LocalDate dateRetourPrevue;
-
     public EmpruntRequest() {
     }
 
@@ -40,7 +34,4 @@ public class EmpruntRequest {
 
     public String getEmailEmprunteur() { return emailEmprunteur; }
     public void setEmailEmprunteur(String emailEmprunteur) { this.emailEmprunteur = emailEmprunteur; }
-
-    public LocalDate getDateRetourPrevue() { return dateRetourPrevue; }
-    public void setDateRetourPrevue(LocalDate dateRetourPrevue) { this.dateRetourPrevue = dateRetourPrevue; }
 }
