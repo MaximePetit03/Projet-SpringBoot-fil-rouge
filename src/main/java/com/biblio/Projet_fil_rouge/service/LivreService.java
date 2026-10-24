@@ -35,7 +35,7 @@ public class LivreService {
         livre.setId(null);
 
         if (livre.getAuteurId() != null && !auteurRepository.existsById(livre.getAuteurId())) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "L'auteur avec cet ID n'existe pas");
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "L'auteur avec cet ID n'existe pas");
         }
 
         if (livre.getIsbn() != null && livreRepository.findByIsbn(livre.getIsbn()).isPresent()) {
