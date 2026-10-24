@@ -129,7 +129,7 @@ public class EmpruntService {
 
     private Livre trouverLivre(Long livreId) {
         return livreRepository.findById(livreId)
-                .orElseThrow(() -> new ResourceIntrouvableException(
+                .orElseThrow(() -> new IllegalArgumentException(
                         "Livre introuvable : " + livreId));
     }
 
