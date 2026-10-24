@@ -6,6 +6,8 @@ import java.util.Map;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.FieldError;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.servlet.NoHandlerFoundException;
@@ -51,5 +53,19 @@ public class    GlobalExceptionHandler {
         String message = "La route demandée n'existe pas ";
         return ResponseEntity.status(HttpStatus.NOT_FOUND)
                 .body(construireErreur(HttpStatus.NOT_FOUND, message));
+    }
+
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public ResponseEntity<Map<String, Object>> handleValidationExceptions(MethodArgumentNotValidException ex) {
+        Map<String, String> erreursChamps = new HashMap<>();
+        
+        for (FieldError error : ex.getBindingResult().getFieldErrors()) {
+            erreursChamps.put(error.getField(), error.getDefaultMessage());
+        }
+
+        Map<String, Object> corpsErreur = construireErreur(HttpStatus.BAD_REQUEST, "Erreur de validation des données");
+        corpsErreur.put("erreurs", erreursChamps);
+
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(corpsErreur);
     }
 }
